@@ -8,5 +8,6 @@ namespace AutoScriptor.Infrastructure.Interface
 {
     public interface IEoppyEservices
     {
+        public Task<string> Prescription_Retrieve(string prescriptionNumbe, string supplBranchCode, string eMessageNumber);
     }
 }

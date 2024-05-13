@@ -1,39 +1,63 @@
-﻿namespace AutoScriptor.Infrastructure.Service;
+﻿using AutoScriptor.Infrastructure.Interface;
+using System.Xml.Linq;
 
-public class EoppyEservices
+namespace AutoScriptor.Infrastructure.Service;
+
+public class EoppyEservices : IEoppyEservices
 {
-    public async Task Prescription_Retrieve(string prescriptionNumber= "022023056350421", string supplBranchCode= "64355" ,string eMessageNumber = "SUNMED_MEDICAL_SA123")
+    public async Task<string> Prescription_Retrieve(string prescriptionNumber = "022023056350421", string supplBranchCode= "64355" ,string eMessageNumber = "SUNMED_MEDICAL_SA123")
     {
         var client = new HttpClient();
         var request = new HttpRequestMessage(
             HttpMethod.Post,
-            "https://eservices.eopyy.gov.gr/dapyPrescriptionWS-dapyPrescriptionWS-context-root/ServicePort?wsdl"
-            //"https://eservices.eopyy.gov.gr:443/dapyPrescriptionWS-Test-dapyPrescriptionWS-Test-context-root/ServicePort"
+            //"https://eservices.eopyy.gov.gr/dapyPrescriptionWS-dapyPrescriptionWS-context-root/ServicePort?wsdl"
+            "https://eservices.eopyy.gov.gr:443/dapyPrescriptionWS-Test-dapyPrescriptionWS-Test-context-root/ServicePort"
         );
         request.Headers.Add("Authorization", "Basic c3VubWVkd2Vic2VyOlN1bjIwMThtZWQ=");
-        var content = new StringContent(
-            "<soapenv:Envelope xmlns:eop=\"http://eopyy.ws.intracom.com/\" " +
-            "xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n    " +
-            "<soapenv:Header>\r\n        " +
-            "<wsse:Security soapenv:mustUnderstand=\"1\" " +
-            "xmlns:wsse=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\" " +
-            "xmlns:wsu=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">\r\n            " +
-            "<wsse:UsernameToken wsu:Id=\"UsernameToken-B32BFDE586617399FF17115676929155\">\r\n                " +
-            "<wsse:Username>sunmedwebser</wsse:Username>\r\n                " +
-            "<wsse:Password Type=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText\">Sun2018med</wsse:Password>\r\n " +
-            "           </wsse:UsernameToken>\r\n        " +
-            "</wsse:Security>\r\n    </soapenv:Header>\r\n    " +
-            "<soapenv:Body>\r\n        <eop:getExamPrescription>\r\n            " +
-            $"<prescriptionNumber>{prescriptionNumber}</prescriptionNumber>\r\n            " +
-            $"<eMessageNumber>{eMessageNumber}</eMessageNumber>\r\n            " +
-            $"<supplBranchCode>{supplBranchCode}</supplBranchCode>\r\n        " +
-            "</eop:getExamPrescription>\r\n    " +
-            "</soapenv:Body>\r\n</soapenv:Envelope>",
-            null,
-            "text/xml");
+        var content = CreateSoapEnvelopeContent("sunmedwebser", "Sun2018med", prescriptionNumber, eMessageNumber, supplBranchCode);
+
         request.Content = content;
         var response = await client.SendAsync(request).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
-        Console.WriteLine(await response.Content.ReadAsStringAsync());
+        return await response.Content.ReadAsStringAsync();
+    }
+
+    static StringContent CreateSoapEnvelopeContent(string username, string password, string prescriptionNumber, string eMessageNumber, string supplBranchCode)
+    {
+        XNamespace soapenv = "http://schemas.xmlsoap.org/soap/envelope/";
+        XNamespace eop = "http://eopyy.ws.intracom.com/";
+        XNamespace wsse = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd";
+        XNamespace wsu = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd";
+
+        XDocument soapEnvelope = new(
+            new XElement(soapenv + "Envelope",
+                new XAttribute(XNamespace.Xmlns + "eop", eop),
+                new XAttribute(XNamespace.Xmlns + "soapenv", soapenv),
+                new XElement(soapenv + "Header",
+                    new XElement(wsse + "Security",
+                        new XAttribute(soapenv + "mustUnderstand", "1"),
+                        new XAttribute(XNamespace.Xmlns + "wsse", wsse),
+                        new XAttribute(XNamespace.Xmlns + "wsu", wsu),
+                        new XElement(wsse + "UsernameToken",
+                            new XAttribute(wsu + "Id", "UsernameToken-B32BFDE586617399FF17115676929155"),
+                            new XElement(wsse + "Username", username),
+                            new XElement(wsse + "Password",
+                                new XAttribute("Type", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText"),
+                                password
+                            )
+                        )
+                    )
+                ),
+                new XElement(soapenv + "Body",
+                    new XElement(eop + "getExamPrescription",
+                        new XElement("prescriptionNumber", prescriptionNumber),
+                        new XElement("eMessageNumber", eMessageNumber),
+                        new XElement("supplBranchCode", supplBranchCode)
+                    )
+                )
+            )
+        );
+
+        return new StringContent(soapEnvelope.ToString(), null, "text/xml");
     }
 }
