@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             panel1 = new Panel();
+            btnRetrieve = new Button();
             pnlNav = new Panel();
             calendarBtn = new Button();
             settingsBtn = new Button();
@@ -46,6 +47,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(btnRetrieve);
             panel1.Controls.Add(pnlNav);
             panel1.Controls.Add(calendarBtn);
             panel1.Controls.Add(settingsBtn);
@@ -58,6 +60,22 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(186, 510);
             panel1.TabIndex = 0;
+            // 
+            // btnRetrieve
+            // 
+            btnRetrieve.Dock = DockStyle.Top;
+            btnRetrieve.FlatAppearance.BorderSize = 0;
+            btnRetrieve.FlatStyle = FlatStyle.Flat;
+            btnRetrieve.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            btnRetrieve.ForeColor = SystemColors.ControlLightLight;
+            btnRetrieve.ImageAlign = ContentAlignment.MiddleRight;
+            btnRetrieve.Location = new Point(0, 360);
+            btnRetrieve.Name = "btnRetrieve";
+            btnRetrieve.Size = new Size(186, 50);
+            btnRetrieve.TabIndex = 6;
+            btnRetrieve.Text = "ΑΝΑΚΤΗΣΗ";
+            btnRetrieve.UseVisualStyleBackColor = true;
+            btnRetrieve.Click += btnRetrieve_Click;
             // 
             // pnlNav
             // 
@@ -223,5 +241,6 @@
         private Button executeBtn;
         private Panel pnlNav;
         private Panel pnlFormLoader;
+        private Button btnRetrieve;
     }
 }

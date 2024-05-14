@@ -10,6 +10,11 @@
 
   <ItemGroup>
     <PackageReference Include="MaterialSkin.2" Version="2.3.1" />
+    <PackageReference Include="Pdfium.Net.SDK" Version="4.89.2704" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AutoScriptor.Infrastructure\AutoScriptor.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

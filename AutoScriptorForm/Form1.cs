@@ -24,7 +24,7 @@ public partial class Form1 : MaterialForm
     public Form1()
     {
         InitializeComponent();
-        //Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 10, 10));
+        Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 10, 10));
         var materialSkinManager = MaterialSkinManager.Instance;
         materialSkinManager.AddFormToManage(this);
         materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
@@ -42,11 +42,12 @@ public partial class Form1 : MaterialForm
 
         this.pnlFormLoader.Controls.Clear();
 
-        var frmHomepage = new frmResource() { 
-            Dock = DockStyle.Fill, 
-            TopLevel = false, 
-            TopMost = true, 
-            FormBorderStyle = FormBorderStyle.None 
+        var frmHomepage = new frmResource()
+        {
+            Dock = DockStyle.Fill,
+            TopLevel = false,
+            TopMost = true,
+            FormBorderStyle = FormBorderStyle.None
         };
 
         this.pnlFormLoader.Controls.Add(frmHomepage);
@@ -108,5 +109,26 @@ public partial class Form1 : MaterialForm
     private void calendarBtn_Leave(object sender, EventArgs e)
     {
         calendarBtn.BackColor = _btnUnhighlightColor;
+    }
+
+    private void btnRetrieve_Click(object sender, EventArgs e)
+    {
+        btnRetrieve.BackColor = _btnHighlightColor;
+        pnlNav.Height = homepageBtn.Height;
+        pnlNav.Top = homepageBtn.Top;
+        pnlNav.Left = homepageBtn.Left;
+
+        this.pnlFormLoader.Controls.Clear();
+
+        var frmHomepage = new frmRetrievePrescription()
+        {
+            Dock = DockStyle.Fill,
+            TopLevel = false,
+            TopMost = true,
+            FormBorderStyle = FormBorderStyle.None
+        };
+
+        this.pnlFormLoader.Controls.Add(frmHomepage);
+        frmHomepage.Show();
     }
 }
