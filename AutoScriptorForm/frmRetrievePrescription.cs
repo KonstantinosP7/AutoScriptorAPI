@@ -1,64 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlTypes;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Xml;
+﻿using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-using AutoScriptor.Infrastructure.Interface;
-using AutoScriptor.Infrastructure.Service;
 using Patagames.Pdf.Net;
-using static System.Net.Mime.MediaTypeNames;
 using static AutoScriptorForm.XMLObjects;
 
 namespace AutoScriptorForm
 {
     public partial class frmRetrievePrescription : Form
     {
+        private EPrescription _prescription;
         public frmRetrievePrescription()
         {
             InitializeComponent();
+
+            PdfCommon.Initialize();
         }
 
         private void materialButton1_Click(object sender, EventArgs e)
         {
+            pdfVr.CloseDocument();
+
             var xmlResponse = Prescription_Retrieve(txtPrsNo.Text).Result;
 
             xmlResponse = xmlResponse.Replace("<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\"><S:Body><ns2:getExamPrescriptionResponse xmlns:ns2=\"http://eopyy.ws.intracom.com/\">", string.Empty);
             xmlResponse = xmlResponse.Replace("</ns2:getExamPrescriptionResponse></S:Body></S:Envelope>", string.Empty);
 
             EPrescription envelop;
-            XmlSerializer serializer = new XmlSerializer(typeof(EPrescription));
-            using (StringReader reader = new StringReader(xmlResponse))
+            XmlSerializer serializer = new(typeof(EPrescription));
+            using (StringReader reader = new(xmlResponse))
             {
-                envelop = (EPrescription)serializer.Deserialize(reader);
+                _prescription = (EPrescription)serializer.Deserialize(reader);
             }
 
-            // Access the EPrescription object within the envelope
-            EPrescription prescription = envelop;
+            byte[] fileBytes = Convert.FromBase64String(_prescription.PrescriptionPrintOut.FileData);
 
+            RemovePrescriptionFileIfExists();
 
-            byte[] fileBytes = Convert.FromBase64String(prescription.PrescriptionPrintOut.FileData);
+            File.WriteAllBytes(_prescription.PrescriptionPrintOut.FileName, fileBytes);
 
-            if(File.Exists(prescription.PrescriptionPrintOut.FileName))
-            {
-                File.Delete(prescription.PrescriptionPrintOut.FileName);
-            }
-            // Save byte array to file
-            File.WriteAllBytes(prescription.PrescriptionPrintOut.FileName, fileBytes);
-
-            PdfCommon.Initialize();
-
-            pdfVr.LoadDocument(prescription.PrescriptionPrintOut.FileName);
-            //File.Delete(prescription.PrescriptionPrintOut.FileName);
-            pdfVr.CloseDocument();
+            pdfVr.LoadDocument(_prescription.PrescriptionPrintOut.FileName);
         }
+
         private async Task<string> Prescription_Retrieve(string prescriptionNumber = "022023056350421", string supplBranchCode = "64355", string eMessageNumber = "SUNMED_MEDICAL_SA123")
         {
             var client = new HttpClient();
@@ -76,7 +58,7 @@ namespace AutoScriptorForm
             return await response.Content.ReadAsStringAsync();
         }
 
-        static StringContent CreateSoapEnvelopeContent(string username, string password, string prescriptionNumber, string eMessageNumber, string supplBranchCode)
+        private static StringContent CreateSoapEnvelopeContent(string username, string password, string prescriptionNumber, string eMessageNumber, string supplBranchCode)
         {
             XNamespace soapenv = "http://schemas.xmlsoap.org/soap/envelope/";
             XNamespace eop = "http://eopyy.ws.intracom.com/";
@@ -114,6 +96,18 @@ namespace AutoScriptorForm
 
             return new StringContent(soapEnvelope.ToString(), null, "text/xml");
         }
-                
+
+        private void frmRetrievePrescription_Leave(object sender, EventArgs e)
+        {
+            pdfVr.CloseDocument();
+        }
+
+        private void RemovePrescriptionFileIfExists()
+        {
+            if (File.Exists(_prescription.PrescriptionPrintOut.FileName))
+            {
+                File.Delete(_prescription.PrescriptionPrintOut.FileName);
+            }
+        }
     }
 }

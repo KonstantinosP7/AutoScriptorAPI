@@ -1,30 +1,16 @@
 using MaterialSkin;
 using MaterialSkin.Controls;
-using System.Drawing.Configuration;
-using System.Runtime.InteropServices;
 
 namespace AutoScriptorForm;
 
 public partial class MainForm : MaterialForm
 {
-    [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-    private static extern IntPtr CreateRoundRectRgn
-    (
-        int nLeftRect,
-        int nTopRect,
-        int nRightRect,
-        int nBottomRect,
-        int nWidthEllipse,
-        int nHeightEllipse
-    );
-
     private readonly Color _btnHighlightColor = Color.FromArgb(46, 51, 73);
     private readonly Color _btnUnhighlightColor;
 
     public MainForm()
     {
         InitializeComponent();
-        Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 10, 10));
         var materialSkinManager = MaterialSkinManager.Instance;
         materialSkinManager.AddFormToManage(this);
         materialSkinManager.Theme = MaterialSkinManager.Themes.DARK;
@@ -36,11 +22,25 @@ public partial class MainForm : MaterialForm
     private void homepageBtn_Click(object sender, EventArgs e)
     {
         homepageBtn.BackColor = _btnHighlightColor;
-        pnlNav.Height = homepageBtn.Height;
-        pnlNav.Top = homepageBtn.Top;
-        pnlNav.Left = homepageBtn.Left;
+        moveNavigationPanel(homepageBtn);
 
         this.pnlFormLoader.Controls.Clear();
+    }
+
+    private void executeBtn_Click(object sender, EventArgs e)
+    {
+        executeBtn.BackColor = _btnHighlightColor;
+        moveNavigationPanel(executeBtn);
+        this.pnlFormLoader.Controls.Clear();
+    }
+
+    private void resourceBtn_Click(object sender, EventArgs e)
+    {
+        resourceBtn.BackColor = _btnHighlightColor;
+        moveNavigationPanel(resourceBtn);
+
+        this.pnlFormLoader.Controls.Clear();
+
 
         var frmHomepage = new frmResource()
         {
@@ -54,36 +54,18 @@ public partial class MainForm : MaterialForm
         frmHomepage.Show();
     }
 
-    private void executeBtn_Click(object sender, EventArgs e)
-    {
-        executeBtn.BackColor = _btnHighlightColor;
-        pnlNav.Height = executeBtn.Height;
-        pnlNav.Top = executeBtn.Top;
-        pnlNav.Left = executeBtn.Left;
-    }
-
-    private void resourceBtn_Click(object sender, EventArgs e)
-    {
-        resourceBtn.BackColor = _btnHighlightColor;
-        pnlNav.Height = resourceBtn.Height;
-        pnlNav.Top = resourceBtn.Top;
-        pnlNav.Left = resourceBtn.Left;
-    }
-
     private void settingsBtn_Click(object sender, EventArgs e)
     {
         settingsBtn.BackColor = _btnHighlightColor;
-        pnlNav.Height = settingsBtn.Height;
-        pnlNav.Top = settingsBtn.Top;
-        pnlNav.Left = settingsBtn.Left;
+        moveNavigationPanel(settingsBtn);
+        this.pnlFormLoader.Controls.Clear();
     }
 
     private void calendarBtn_Click(object sender, EventArgs e)
     {
         calendarBtn.BackColor = _btnHighlightColor;
-        pnlNav.Height = calendarBtn.Height;
-        pnlNav.Top = calendarBtn.Top;
-        pnlNav.Left = calendarBtn.Left;
+        moveNavigationPanel(calendarBtn);
+        this.pnlFormLoader.Controls.Clear();
     }
 
     private void homepageBtn_Leave(object sender, EventArgs e)
@@ -114,10 +96,7 @@ public partial class MainForm : MaterialForm
     private void btnRetrieve_Click(object sender, EventArgs e)
     {
         btnRetrieve.BackColor = _btnHighlightColor;
-        pnlNav.Height = homepageBtn.Height;
-        pnlNav.Top = homepageBtn.Top;
-        pnlNav.Left = homepageBtn.Left;
-
+        moveNavigationPanel(btnRetrieve);
         this.pnlFormLoader.Controls.Clear();
 
         var frmHomepage = new frmRetrievePrescription()
@@ -130,5 +109,12 @@ public partial class MainForm : MaterialForm
 
         this.pnlFormLoader.Controls.Add(frmHomepage);
         frmHomepage.Show();
+    }
+
+    private void moveNavigationPanel(Button pressedBtn)
+    {
+        pnlNav.Height = pressedBtn.Height;
+        pnlNav.Top = pressedBtn.Top;
+        pnlNav.Left = pressedBtn.Left;
     }
 }

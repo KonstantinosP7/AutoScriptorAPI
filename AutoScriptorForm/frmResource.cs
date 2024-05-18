@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace AutoScriptorForm
 {
@@ -48,7 +49,7 @@ namespace AutoScriptorForm
 
         private void AddOxygenDevice(string code, string machineState, DateTime usedUntil, DateTime dateOfBuy, int timesUsed, string manufacturer)
         {
-            ListViewItem item = new ListViewItem(code);
+            ListViewItem item = new(code);
             item.SubItems.Add(machineState);
             item.SubItems.Add(usedUntil.ToString("yyyy-MM-dd"));
             item.SubItems.Add(dateOfBuy.ToString("yyyy-MM-dd"));
@@ -56,6 +57,19 @@ namespace AutoScriptorForm
             item.SubItems.Add(manufacturer);
 
             tblDevices.Items.Add(item);
+        }
+
+        private void addResource_Click(object sender, EventArgs e)
+        {
+            using (var frm = new frmAddResource())
+            {
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    var newOxygenDevice = frm.device;
+                    AddOxygenDevice(newOxygenDevice.Code, "New", DateTime.Now, Convert.ToDateTime(newOxygenDevice.DateCreated), newOxygenDevice.TimesUsed, newOxygenDevice.Manufacturer);
+                    MessageBox.Show($"Καταχωρήθηκε το νέο μηχάνημα Επιτυχώς", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
         }
     }
 }

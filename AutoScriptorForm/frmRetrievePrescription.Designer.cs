@@ -161,6 +161,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "frmRetrievePrescription";
             Text = "frmRetrievePrescription";
+            Leave += frmRetrievePrescription_Leave;
             ResumeLayout(false);
             PerformLayout();
         }

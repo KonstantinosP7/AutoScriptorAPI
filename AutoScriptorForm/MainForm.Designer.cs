@@ -56,9 +56,9 @@
             panel1.Controls.Add(homepageBtn);
             panel1.Controls.Add(panel2);
             panel1.Dock = DockStyle.Left;
-            panel1.Location = new Point(3, 64);
+            panel1.Location = new Point(3, 24);
             panel1.Name = "panel1";
-            panel1.Size = new Size(186, 510);
+            panel1.Size = new Size(186, 567);
             panel1.TabIndex = 0;
             // 
             // btnRetrieve
@@ -205,22 +205,26 @@
             // pnlFormLoader
             // 
             pnlFormLoader.Dock = DockStyle.Fill;
-            pnlFormLoader.Location = new Point(189, 64);
+            pnlFormLoader.Location = new Point(189, 24);
             pnlFormLoader.Name = "pnlFormLoader";
-            pnlFormLoader.Size = new Size(759, 510);
+            pnlFormLoader.Size = new Size(873, 567);
             pnlFormLoader.TabIndex = 1;
             // 
-            // Form1
+            // MainForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.None;
             BackColor = Color.FromArgb(46, 51, 73);
-            ClientSize = new Size(951, 577);
+            ClientSize = new Size(1065, 594);
             Controls.Add(pnlFormLoader);
             Controls.Add(panel1);
-            Name = "Form1";
+            DrawerShowIconsWhenHidden = true;
+            DrawerWidth = 350;
+            FormStyle = FormStyles.ActionBar_None;
+            Name = "MainForm";
+            Padding = new Padding(3, 24, 3, 3);
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Form1";
+            Text = "AutoScirptor";
+            WindowState = FormWindowState.Maximized;
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
