@@ -78,7 +78,7 @@
             txtPrsNo.Size = new Size(261, 48);
             txtPrsNo.TabIndex = 1;
             txtPrsNo.TabStop = false;
-            txtPrsNo.Text = "Αριθμός γνωμάτευσης";
+            txtPrsNo.Text = "022022044515845";
             txtPrsNo.TextAlign = HorizontalAlignment.Left;
             txtPrsNo.TrailingIcon = null;
             txtPrsNo.UseSystemPasswordChar = false;

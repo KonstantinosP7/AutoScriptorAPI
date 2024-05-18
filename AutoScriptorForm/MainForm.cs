@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace AutoScriptorForm;
 
-public partial class Form1 : MaterialForm
+public partial class MainForm : MaterialForm
 {
     [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
     private static extern IntPtr CreateRoundRectRgn
@@ -21,7 +21,7 @@ public partial class Form1 : MaterialForm
     private readonly Color _btnHighlightColor = Color.FromArgb(46, 51, 73);
     private readonly Color _btnUnhighlightColor;
 
-    public Form1()
+    public MainForm()
     {
         InitializeComponent();
         Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, Width, Height, 10, 10));

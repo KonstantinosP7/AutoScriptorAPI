@@ -14,6 +14,8 @@ using System.Xml.Serialization;
 using AutoScriptor.Infrastructure.Interface;
 using AutoScriptor.Infrastructure.Service;
 using Patagames.Pdf.Net;
+using static System.Net.Mime.MediaTypeNames;
+using static AutoScriptorForm.XMLObjects;
 
 namespace AutoScriptorForm
 {
@@ -28,25 +30,34 @@ namespace AutoScriptorForm
         {
             var xmlResponse = Prescription_Retrieve(txtPrsNo.Text).Result;
 
-            Envelope envelope;
+            xmlResponse = xmlResponse.Replace("<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\"><S:Body><ns2:getExamPrescriptionResponse xmlns:ns2=\"http://eopyy.ws.intracom.com/\">", string.Empty);
+            xmlResponse = xmlResponse.Replace("</ns2:getExamPrescriptionResponse></S:Body></S:Envelope>", string.Empty);
+
+            EPrescription envelop;
+            XmlSerializer serializer = new XmlSerializer(typeof(EPrescription));
             using (StringReader reader = new StringReader(xmlResponse))
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(Envelope));
-                envelope = (Envelope)serializer.Deserialize(reader);
+                envelop = (EPrescription)serializer.Deserialize(reader);
             }
 
             // Access the EPrescription object within the envelope
-            EPrescription prescription = envelope.Body.GetExamPrescriptionResponse.EPrescription;
+            EPrescription prescription = envelop;
 
 
-            byte[] fileBytes = Convert.FromBase64String(prescription.prescriptionPrintOut.fileData);
+            byte[] fileBytes = Convert.FromBase64String(prescription.PrescriptionPrintOut.FileData);
 
+            if(File.Exists(prescription.PrescriptionPrintOut.FileName))
+            {
+                File.Delete(prescription.PrescriptionPrintOut.FileName);
+            }
             // Save byte array to file
-            File.WriteAllBytes(prescription.prescriptionPrintOut.fileName, fileBytes);
+            File.WriteAllBytes(prescription.PrescriptionPrintOut.FileName, fileBytes);
 
             PdfCommon.Initialize();
 
-            pdfVr.LoadDocument(prescription.prescriptionPrintOut.fileName);
+            pdfVr.LoadDocument(prescription.PrescriptionPrintOut.FileName);
+            //File.Delete(prescription.PrescriptionPrintOut.FileName);
+            pdfVr.CloseDocument();
         }
         private async Task<string> Prescription_Retrieve(string prescriptionNumber = "022023056350421", string supplBranchCode = "64355", string eMessageNumber = "SUNMED_MEDICAL_SA123")
         {
@@ -103,53 +114,6 @@ namespace AutoScriptorForm
 
             return new StringContent(soapEnvelope.ToString(), null, "text/xml");
         }
-
-        [XmlRoot(ElementName = "Envelope", Namespace = "http://schemas.xmlsoap.org/soap/envelope/")]
-        public class Envelope
-        {
-            [XmlElement(ElementName = "Body", Namespace = "http://schemas.xmlsoap.org/soap/envelope/")]
-            public Body Body { get; set; }
-        }
-
-        public class Body
-        {
-            [XmlElement(ElementName = "getExamPrescriptionResponse", Namespace = "http://eopyy.ws.intracom.com/")]
-            public GetExamPrescriptionResponse GetExamPrescriptionResponse { get; set; }
-        }
-
-        public class GetExamPrescriptionResponse
-        {
-            [XmlElement(ElementName = "EPrescription", Namespace = "http://eopyy.ws.intracom.com/")]
-            public EPrescription EPrescription { get; set; }
-        }
-
-        public class EPrescription
-        {
-            public bool covid19 { get; set; }
-            public DateTime duration_end { get; set; }
-            public ExaminationFirst examinationFirst { get; set; }
-            public string examinedAmka { get; set; }
-            public string examinedFirstname { get; set; }
-            public string examinedLastname { get; set; }
-            public string issueDateStr { get; set; }
-            public string prescrDocCode { get; set; }
-            public string prescrDocFirstname { get; set; }
-            public string prescrDocLastname { get; set; }
-            public PrescriptionPrintOut prescriptionPrintOut { get; set; }
-        }
-
-        public class ExaminationFirst
-        {
-            public string aa { get; set; }
-            public string description { get; set; }
-            public string quantity { get; set; }
-            public string eDapiCode { get; set; }
-        }
-
-        public class PrescriptionPrintOut
-        {
-            public string fileData { get; set; }
-            public string fileName { get; set; }
-        }
+                
     }
 }
