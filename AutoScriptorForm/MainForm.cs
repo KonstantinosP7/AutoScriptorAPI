@@ -25,6 +25,14 @@ public partial class MainForm : MaterialForm
         moveNavigationPanel(homepageBtn);
 
         this.pnlFormLoader.Controls.Clear();
+
+        var uc = new ucHomepage()
+        {
+            Dock = DockStyle.Fill
+        };
+
+        pnlFormLoader.Controls.Add(uc);
+        uc.Show();
     }
 
     private void executeBtn_Click(object sender, EventArgs e)

@@ -1,16 +1,4 @@
-﻿using eoppyEservices;
-using Patagames.Pdf.Net;
-using Patagames.Pdf.Net.Wrappers;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using Patagames.Pdf.Net;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using static AutoScriptorForm.XMLObjects;

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             panel1 = new Panel();
             btnRetrieve = new Button();
             pnlNav = new Panel();
@@ -58,7 +59,7 @@
             panel1.Dock = DockStyle.Left;
             panel1.Location = new Point(3, 24);
             panel1.Name = "panel1";
-            panel1.Size = new Size(186, 918);
+            panel1.Size = new Size(246, 918);
             panel1.TabIndex = 0;
             // 
             // btnRetrieve
@@ -68,12 +69,13 @@
             btnRetrieve.FlatStyle = FlatStyle.Flat;
             btnRetrieve.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             btnRetrieve.ForeColor = SystemColors.ControlLightLight;
-            btnRetrieve.ImageAlign = ContentAlignment.MiddleRight;
-            btnRetrieve.Location = new Point(0, 310);
+            btnRetrieve.Image = Properties.Resources.icons8_search_24;
+            btnRetrieve.Location = new Point(0, 361);
             btnRetrieve.Name = "btnRetrieve";
-            btnRetrieve.Size = new Size(186, 50);
+            btnRetrieve.Size = new Size(246, 61);
             btnRetrieve.TabIndex = 6;
             btnRetrieve.Text = "ΑΝΑΚΤΗΣΗ";
+            btnRetrieve.TextImageRelation = TextImageRelation.TextBeforeImage;
             btnRetrieve.UseVisualStyleBackColor = true;
             btnRetrieve.Click += btnRetrieve_Click;
             // 
@@ -92,12 +94,13 @@
             calendarBtn.FlatStyle = FlatStyle.Flat;
             calendarBtn.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             calendarBtn.ForeColor = SystemColors.ControlLightLight;
-            calendarBtn.ImageAlign = ContentAlignment.MiddleRight;
-            calendarBtn.Location = new Point(0, 260);
+            calendarBtn.Image = Properties.Resources.icons8_calendar_24;
+            calendarBtn.Location = new Point(0, 298);
             calendarBtn.Name = "calendarBtn";
-            calendarBtn.Size = new Size(186, 50);
+            calendarBtn.Size = new Size(246, 63);
             calendarBtn.TabIndex = 5;
             calendarBtn.Text = "ΗΜΕΡΟΛΟΓΙΟ";
+            calendarBtn.TextImageRelation = TextImageRelation.TextBeforeImage;
             calendarBtn.UseVisualStyleBackColor = true;
             calendarBtn.Click += calendarBtn_Click;
             calendarBtn.Leave += calendarBtn_Leave;
@@ -112,7 +115,7 @@
             settingsBtn.ImageAlign = ContentAlignment.MiddleRight;
             settingsBtn.Location = new Point(0, 868);
             settingsBtn.Name = "settingsBtn";
-            settingsBtn.Size = new Size(186, 50);
+            settingsBtn.Size = new Size(246, 50);
             settingsBtn.TabIndex = 4;
             settingsBtn.Text = "ΡΥΘΜΙΣΕΙΣ";
             settingsBtn.UseVisualStyleBackColor = true;
@@ -126,12 +129,13 @@
             resourceBtn.FlatStyle = FlatStyle.Flat;
             resourceBtn.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             resourceBtn.ForeColor = SystemColors.ControlLightLight;
-            resourceBtn.ImageAlign = ContentAlignment.MiddleRight;
-            resourceBtn.Location = new Point(0, 210);
+            resourceBtn.Image = Properties.Resources.icons8_warehouse_24;
+            resourceBtn.Location = new Point(0, 239);
             resourceBtn.Name = "resourceBtn";
-            resourceBtn.Size = new Size(186, 50);
+            resourceBtn.Size = new Size(246, 59);
             resourceBtn.TabIndex = 3;
             resourceBtn.Text = "ΑΠΟΘΗΚΗ";
+            resourceBtn.TextImageRelation = TextImageRelation.TextBeforeImage;
             resourceBtn.UseVisualStyleBackColor = true;
             resourceBtn.Click += resourceBtn_Click;
             resourceBtn.Leave += resourceBtn_Leave;
@@ -143,12 +147,13 @@
             executeBtn.FlatStyle = FlatStyle.Flat;
             executeBtn.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             executeBtn.ForeColor = SystemColors.ControlLightLight;
-            executeBtn.ImageAlign = ContentAlignment.MiddleRight;
-            executeBtn.Location = new Point(0, 160);
+            executeBtn.Image = Properties.Resources.icons8_download_24;
+            executeBtn.Location = new Point(0, 169);
             executeBtn.Name = "executeBtn";
-            executeBtn.Size = new Size(186, 50);
+            executeBtn.Size = new Size(246, 70);
             executeBtn.TabIndex = 2;
             executeBtn.Text = "ΚΑΤΑΧΩΡΗΣΗ";
+            executeBtn.TextImageRelation = TextImageRelation.TextBeforeImage;
             executeBtn.UseVisualStyleBackColor = true;
             executeBtn.Click += executeBtn_Click;
             executeBtn.Leave += executeBtn_Leave;
@@ -160,12 +165,13 @@
             homepageBtn.FlatStyle = FlatStyle.Flat;
             homepageBtn.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             homepageBtn.ForeColor = SystemColors.ControlLightLight;
-            homepageBtn.ImageAlign = ContentAlignment.MiddleRight;
+            homepageBtn.Image = (Image)resources.GetObject("homepageBtn.Image");
             homepageBtn.Location = new Point(0, 110);
             homepageBtn.Name = "homepageBtn";
-            homepageBtn.Size = new Size(186, 50);
+            homepageBtn.Size = new Size(246, 59);
             homepageBtn.TabIndex = 1;
             homepageBtn.Text = "ΑΡΧΙΚΗ";
+            homepageBtn.TextImageRelation = TextImageRelation.TextBeforeImage;
             homepageBtn.UseVisualStyleBackColor = true;
             homepageBtn.Click += homepageBtn_Click;
             homepageBtn.Leave += homepageBtn_Leave;
@@ -177,7 +183,7 @@
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(186, 110);
+            panel2.Size = new Size(246, 110);
             panel2.TabIndex = 0;
             // 
             // materialLabel1
@@ -185,7 +191,7 @@
             materialLabel1.AutoSize = true;
             materialLabel1.Depth = 0;
             materialLabel1.Font = new Font("Roboto", 14F, FontStyle.Regular, GraphicsUnit.Pixel);
-            materialLabel1.Location = new Point(60, 80);
+            materialLabel1.Location = new Point(92, 79);
             materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
             materialLabel1.Name = "materialLabel1";
             materialLabel1.Size = new Size(73, 19);
@@ -195,7 +201,7 @@
             // pictureBox1
             // 
             pictureBox1.Image = Properties.Resources.user;
-            pictureBox1.Location = new Point(60, 3);
+            pictureBox1.Location = new Point(102, 3);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(63, 63);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
@@ -205,9 +211,9 @@
             // pnlFormLoader
             // 
             pnlFormLoader.Dock = DockStyle.Fill;
-            pnlFormLoader.Location = new Point(189, 24);
+            pnlFormLoader.Location = new Point(249, 24);
             pnlFormLoader.Name = "pnlFormLoader";
-            pnlFormLoader.Size = new Size(1649, 918);
+            pnlFormLoader.Size = new Size(1589, 918);
             pnlFormLoader.TabIndex = 1;
             // 
             // MainForm
