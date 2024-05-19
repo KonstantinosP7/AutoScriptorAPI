@@ -1,36 +1,28 @@
 ﻿using MaterialSkin;
 using MaterialSkin.Controls;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace AutoScriptorForm
 {
-    public partial class frmResource : Form
+    public partial class frmResource : MaterialForm
     {
         public frmResource()
         {
             InitializeComponent();
-            PopulateListView();
+            //var materialSkinManager = MaterialSkinManager.Instance;
+            //materialSkinManager.AddFormToManage(this);
+
+            PopulateListView();            
         }
 
         private void PopulateListView()
         {
             // Add columns to the ListView
-            tblDevices.Columns.Add("Code", 100);
-            tblDevices.Columns.Add("Machine State", 100);
-            tblDevices.Columns.Add("Used Until", 100);
-            tblDevices.Columns.Add("Date of Buy", 100);
-            tblDevices.Columns.Add("Times Used", 100);
-            tblDevices.Columns.Add("Manufacturer", 100);
+            tblDevices.Columns.Add("Code", 150);
+            tblDevices.Columns.Add("Machine State", 300);
+            tblDevices.Columns.Add("Used Until", 300);
+            tblDevices.Columns.Add("Date of Buy", 300);
+            tblDevices.Columns.Add("Times Used", 300);
+            tblDevices.Columns.Add("Manufacturer", 300);
 
             // Add items for oxygen devices
             AddOxygenDevice("Oxy001", "Working", DateTime.Now.AddDays(30), DateTime.Now.AddMonths(-6), 50, "ABC Company");

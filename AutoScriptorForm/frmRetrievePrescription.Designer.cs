@@ -122,7 +122,7 @@
             pdfVr.FormHighlightColor = Color.Transparent;
             pdfVr.FormsBlendMode = Patagames.Pdf.Enums.BlendTypes.FXDIB_BLEND_MULTIPLY;
             pdfVr.LoadingIconText = "Loading...";
-            pdfVr.Location = new Point(364, 0);
+            pdfVr.Location = new Point(354, 0);
             pdfVr.Margin = new Padding(4, 3, 4, 3);
             pdfVr.MouseMode = Patagames.Pdf.Net.Controls.WinForms.MouseModes.Default;
             pdfVr.Name = "pdfVr";
@@ -138,7 +138,7 @@
             pdfVr.ShowCurrentPageHighlight = true;
             pdfVr.ShowLoadingIcon = true;
             pdfVr.ShowPageSeparator = true;
-            pdfVr.Size = new Size(436, 450);
+            pdfVr.Size = new Size(1295, 918);
             pdfVr.SizeMode = Patagames.Pdf.Net.Controls.WinForms.SizeModes.FitToWidth;
             pdfVr.TabIndex = 4;
             pdfVr.TextSelectColor = Color.FromArgb(70, 70, 130, 180);
@@ -152,7 +152,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1649, 918);
             Controls.Add(pdfVr);
             Controls.Add(materialTextBox22);
             Controls.Add(txtPrsNo);

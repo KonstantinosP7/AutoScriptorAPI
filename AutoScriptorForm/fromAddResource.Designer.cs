@@ -120,6 +120,7 @@
             FormStyle = FormStyles.ActionBar_None;
             Name = "frmAddResource";
             Padding = new Padding(3, 24, 3, 3);
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "fromAddResource";
             ResumeLayout(false);
             PerformLayout();

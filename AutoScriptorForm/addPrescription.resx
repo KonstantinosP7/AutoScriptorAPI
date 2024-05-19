@@ -117,25 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="materialButton1.Icon" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vAAADrwBlbxySQAAA0FJREFUWEfFl7nPDVEYh69d7BIFlUKjsyUSfwKxqxQahaXQEgpblEoKSxRKRPwD
-        xJaobLEEITqiQGHf/Z755pmMz9zvG9wbv+TJvffMOb/3fc85M3Nup6VGhNEl6Fq4HeYWvzqdUSV9EcYk
-        AGhqeBJ+hLdhf5gQ0MjysycioFWNCavDufAifA3fSkjkaVgRkIkiEmLW6m2txECDLw/3A4G+B4KSgL8/
-        l/B7e0AGNTB+rZNwGseHE8FAwPeX4U35/UtwFh6GJQGZ/JywJkwsfrVYIjtMD1cDxp/Kz0dhU5gRbpZt
-        wD7YGcYFVA9OsvS5HKYF1DUJp4jKrwSDU/m+MDaoW4Hrp8JsGiICY26ARYE+Lg9J4I0al8PMjwcHfgjs
-        AcR1NiNaH1YNfC3MBm80k1gW3geTOBaQsSrZwE6nI2tL5e5sqm/K2qqbpCcF4IUn3iZeJaExVdTXdk9A
-        Vl0XgyuDIeTY3UFfYji2iO2PdcFOd4ObqqnytnIsXneC/msDKmKbwJlgB3Y78tH7L9IDT/2JhapZnBKe
-        By6+CjMD+pfqlR544k0MYhGz0sJgdudpiLrer38hvfA2DjEr8bTywiEaol5Mv9ILb+MQs9LG4AV2LOpH
-        AvW7gZiV/nsC9SU4TEPUjwTwNg4PvUr1TXiBhqgfmxBv4yygQXFLPAtc4FaZFVAvb0M8XwdiEGtyKNT0
-        INpMQ9SLZdBjS9D/NA3RL0/C+j64F4Z8dbaUY/HCU39vwSK2nfhxI9hpb0BNL6PBYqyF1OVYzhP6Xg/2
-        rYqzYWWgU9dX5yCxuZquYewBpv6K55MY6LdxNhwJdPRA4pmgflcQgLW1Ag4eGwa+FlXrRQEfgwcSvFFj
-        QZrx6rwYGMCRjEPn4oBIol41O/tkoC8nZ4XHgaAHn3gO+4r3An8+LgUGgg8NdzQJbAveVsD7njfe1vC4
-        bDM4XniirsGVU83O5Zy/I9DmwPmBjYQxs+PavgsmVD/GHw1WXl/GIUWwwZ2tflfAmHUFA/lvyd/MyNKA
-        mLHWwRVJENTAyFngVOyT06AkQ9vZwE6vL9ew0/4n0ow1PRi4U0iEf0aTgqJf427vhajOKZ0XHgQ2GuI2
-        5HqLqjudn7HE6XkUaC1PAAAAAElFTkSuQmCC
-</value>
-  </data>
+  <metadata name="$this.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
 </root>
