@@ -32,6 +32,14 @@ public partial class MainForm : MaterialForm
         executeBtn.BackColor = _btnHighlightColor;
         moveNavigationPanel(executeBtn);
         this.pnlFormLoader.Controls.Clear();
+
+        var uc = new addPrescription()
+        {
+            Dock = DockStyle.Fill
+        };
+
+        pnlFormLoader.Controls.Add(uc);
+        uc.Show();
     }
 
     private void resourceBtn_Click(object sender, EventArgs e)
@@ -59,6 +67,14 @@ public partial class MainForm : MaterialForm
         settingsBtn.BackColor = _btnHighlightColor;
         moveNavigationPanel(settingsBtn);
         this.pnlFormLoader.Controls.Clear();
+
+        var uc = new ucSettings()
+        {
+            Dock = DockStyle.Fill
+        };
+
+        pnlFormLoader.Controls.Add(uc);
+        uc.Show();
     }
 
     private void calendarBtn_Click(object sender, EventArgs e)

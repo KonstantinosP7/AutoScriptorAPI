@@ -32,6 +32,7 @@
             txtPrsNo = new MaterialSkin.Controls.MaterialTextBox2();
             materialTextBox22 = new MaterialSkin.Controls.MaterialTextBox2();
             pdfVr = new Patagames.Pdf.Net.Controls.WinForms.PdfViewer();
+            materialButton2 = new MaterialSkin.Controls.MaterialButton();
             SuspendLayout();
             // 
             // materialButton1
@@ -40,13 +41,13 @@
             materialButton1.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             materialButton1.Depth = 0;
             materialButton1.HighEmphasis = true;
-            materialButton1.Icon = null;
-            materialButton1.Location = new Point(97, 199);
+            materialButton1.Icon = Properties.Resources.icons8_search_50;
+            materialButton1.Location = new Point(26, 183);
             materialButton1.Margin = new Padding(4, 6, 4, 6);
             materialButton1.MouseState = MaterialSkin.MouseState.HOVER;
             materialButton1.Name = "materialButton1";
             materialButton1.NoAccentTextColor = Color.Empty;
-            materialButton1.Size = new Size(109, 36);
+            materialButton1.Size = new Size(137, 36);
             materialButton1.TabIndex = 0;
             materialButton1.Text = "ΑΝΑΖΗΤΗΣΗ";
             materialButton1.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
@@ -147,12 +148,32 @@
             pdfVr.ViewMode = Patagames.Pdf.Net.Controls.WinForms.ViewModes.Vertical;
             pdfVr.Zoom = 1F;
             // 
+            // materialButton2
+            // 
+            materialButton2.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            materialButton2.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            materialButton2.Depth = 0;
+            materialButton2.HighEmphasis = true;
+            materialButton2.Icon = Properties.Resources.icons8_download_50;
+            materialButton2.Location = new Point(26, 231);
+            materialButton2.Margin = new Padding(4, 6, 4, 6);
+            materialButton2.MouseState = MaterialSkin.MouseState.HOVER;
+            materialButton2.Name = "materialButton2";
+            materialButton2.NoAccentTextColor = Color.Empty;
+            materialButton2.Size = new Size(146, 36);
+            materialButton2.TabIndex = 5;
+            materialButton2.Text = "ΑΠΟΘΗΚΕΥΣΗ";
+            materialButton2.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            materialButton2.UseAccentColor = false;
+            materialButton2.UseVisualStyleBackColor = true;
+            // 
             // frmRetrievePrescription
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1649, 918);
+            Controls.Add(materialButton2);
             Controls.Add(pdfVr);
             Controls.Add(materialTextBox22);
             Controls.Add(txtPrsNo);
@@ -172,5 +193,6 @@
         private MaterialSkin.Controls.MaterialTextBox2 txtPrsNo;
         private MaterialSkin.Controls.MaterialTextBox2 materialTextBox22;
         private Patagames.Pdf.Net.Controls.WinForms.PdfViewer pdfVr;
+        private MaterialSkin.Controls.MaterialButton materialButton2;
     }
 }

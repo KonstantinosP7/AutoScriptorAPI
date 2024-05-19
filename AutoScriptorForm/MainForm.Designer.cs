@@ -69,7 +69,7 @@
             btnRetrieve.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             btnRetrieve.ForeColor = SystemColors.ControlLightLight;
             btnRetrieve.ImageAlign = ContentAlignment.MiddleRight;
-            btnRetrieve.Location = new Point(0, 360);
+            btnRetrieve.Location = new Point(0, 310);
             btnRetrieve.Name = "btnRetrieve";
             btnRetrieve.Size = new Size(186, 50);
             btnRetrieve.TabIndex = 6;
@@ -93,7 +93,7 @@
             calendarBtn.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             calendarBtn.ForeColor = SystemColors.ControlLightLight;
             calendarBtn.ImageAlign = ContentAlignment.MiddleRight;
-            calendarBtn.Location = new Point(0, 310);
+            calendarBtn.Location = new Point(0, 260);
             calendarBtn.Name = "calendarBtn";
             calendarBtn.Size = new Size(186, 50);
             calendarBtn.TabIndex = 5;
@@ -104,13 +104,13 @@
             // 
             // settingsBtn
             // 
-            settingsBtn.Dock = DockStyle.Top;
+            settingsBtn.Dock = DockStyle.Bottom;
             settingsBtn.FlatAppearance.BorderSize = 0;
             settingsBtn.FlatStyle = FlatStyle.Flat;
             settingsBtn.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             settingsBtn.ForeColor = SystemColors.ControlLightLight;
             settingsBtn.ImageAlign = ContentAlignment.MiddleRight;
-            settingsBtn.Location = new Point(0, 260);
+            settingsBtn.Location = new Point(0, 868);
             settingsBtn.Name = "settingsBtn";
             settingsBtn.Size = new Size(186, 50);
             settingsBtn.TabIndex = 4;

@@ -41,7 +41,7 @@ namespace AutoScriptorForm
             pdfVr.LoadDocument(_prescription.PrescriptionPrintOut.FileName);
         }
 
-        private async Task<string> Prescription_Retrieve(string prescriptionNumber = "022023056350421", string supplBranchCode = "64355", string eMessageNumber = "SUNMED_MEDICAL_SA123")
+        private async Task<string> Prescription_Retrieve(string prescriptionNumber = "022022044515845", string supplBranchCode = "64355", string eMessageNumber = "SUNMED_MEDICAL_SA123")
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage(
