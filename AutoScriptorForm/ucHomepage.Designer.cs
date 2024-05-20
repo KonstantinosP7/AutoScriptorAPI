@@ -222,7 +222,7 @@
             materialListView1.MultiSelect = false;
             materialListView1.Name = "materialListView1";
             materialListView1.OwnerDraw = true;
-            materialListView1.Size = new Size(1405, 125);
+            materialListView1.Size = new Size(1400, 163);
             materialListView1.TabIndex = 3;
             materialListView1.UseCompatibleStateImageBehavior = false;
             materialListView1.View = View.Details;
@@ -260,7 +260,7 @@
             // columnHeader7
             // 
             columnHeader7.Text = "Συσκευή";
-            columnHeader7.Width = 200;
+            columnHeader7.Width = 400;
             // 
             // materialLabel6
             // 
@@ -281,7 +281,7 @@
             materialLabel9.Depth = 0;
             materialLabel9.Font = new Font("Roboto", 16F, FontStyle.Regular, GraphicsUnit.Pixel);
             materialLabel9.FontType = MaterialSkin.MaterialSkinManager.fontType.Subtitle1;
-            materialLabel9.Location = new Point(60, 475);
+            materialLabel9.Location = new Point(60, 513);
             materialLabel9.MouseState = MaterialSkin.MouseState.HOVER;
             materialLabel9.Name = "materialLabel9";
             materialLabel9.Size = new Size(203, 19);
@@ -295,7 +295,7 @@
             materialButton1.Depth = 0;
             materialButton1.HighEmphasis = true;
             materialButton1.Icon = Properties.Resources.icons8_date_50;
-            materialButton1.Location = new Point(1327, 278);
+            materialButton1.Location = new Point(1322, 278);
             materialButton1.Margin = new Padding(4, 6, 4, 6);
             materialButton1.MouseState = MaterialSkin.MouseState.HOVER;
             materialButton1.Name = "materialButton1";
@@ -316,14 +316,14 @@
             materialListView2.Depth = 0;
             materialListView2.Font = new Font("Segoe UI", 20.25F);
             materialListView2.FullRowSelect = true;
-            materialListView2.Location = new Point(60, 518);
+            materialListView2.Location = new Point(60, 557);
             materialListView2.MinimumSize = new Size(200, 100);
             materialListView2.MouseLocation = new Point(-1, -1);
             materialListView2.MouseState = MaterialSkin.MouseState.OUT;
             materialListView2.MultiSelect = false;
             materialListView2.Name = "materialListView2";
             materialListView2.OwnerDraw = true;
-            materialListView2.Size = new Size(1405, 334);
+            materialListView2.Size = new Size(1400, 296);
             materialListView2.TabIndex = 8;
             materialListView2.UseCompatibleStateImageBehavior = false;
             materialListView2.View = View.Details;
@@ -361,7 +361,7 @@
             // columnHeader14
             // 
             columnHeader14.Text = "Συσκευή";
-            columnHeader14.Width = 200;
+            columnHeader14.Width = 400;
             // 
             // ucHomepage
             // 
