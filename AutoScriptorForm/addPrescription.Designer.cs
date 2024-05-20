@@ -46,6 +46,7 @@
             txtNameDoc = new MaterialSkin.Controls.MaterialTextBox2();
             txtSurnameDoc = new MaterialSkin.Controls.MaterialTextBox2();
             txtEndDate = new MaterialSkin.Controls.MaterialTextBox2();
+            materialButton3 = new MaterialSkin.Controls.MaterialButton();
             SuspendLayout();
             // 
             // txtAG
@@ -70,7 +71,7 @@
             txtAG.SelectionLength = 0;
             txtAG.SelectionStart = 0;
             txtAG.ShortcutsEnabled = true;
-            txtAG.Size = new Size(584, 48);
+            txtAG.Size = new Size(354, 48);
             txtAG.TabIndex = 0;
             txtAG.TabStop = false;
             txtAG.TextAlign = HorizontalAlignment.Left;
@@ -465,10 +466,30 @@
             txtEndDate.TrailingIcon = null;
             txtEndDate.UseSystemPasswordChar = false;
             // 
+            // materialButton3
+            // 
+            materialButton3.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            materialButton3.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            materialButton3.Depth = 0;
+            materialButton3.HighEmphasis = true;
+            materialButton3.Icon = Properties.Resources.icons8_plus_24;
+            materialButton3.Location = new Point(393, 69);
+            materialButton3.Margin = new Padding(4, 6, 4, 6);
+            materialButton3.MouseState = MaterialSkin.MouseState.HOVER;
+            materialButton3.Name = "materialButton3";
+            materialButton3.NoAccentTextColor = Color.Empty;
+            materialButton3.Size = new Size(240, 36);
+            materialButton3.TabIndex = 18;
+            materialButton3.Text = "ΠΡΟΣΘΗΚΗ ΣΥΝΕΧΟΜΕΝΩΝ";
+            materialButton3.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            materialButton3.UseAccentColor = false;
+            materialButton3.UseVisualStyleBackColor = true;
+            // 
             // addPrescription
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(materialButton3);
             Controls.Add(txtEndDate);
             Controls.Add(txtNameDoc);
             Controls.Add(txtSurnameDoc);
@@ -512,5 +533,6 @@
         private MaterialSkin.Controls.MaterialTextBox2 txtNameDoc;
         private MaterialSkin.Controls.MaterialTextBox2 txtSurnameDoc;
         private MaterialSkin.Controls.MaterialTextBox2 txtEndDate;
+        private MaterialSkin.Controls.MaterialButton materialButton3;
     }
 }
