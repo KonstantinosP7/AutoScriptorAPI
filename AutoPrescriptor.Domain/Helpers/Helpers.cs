@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using AutoPrescriptor.Domain.Models;
+using System.Text;
 using System.Xml.Linq;
 
 namespace AutoPrescriptor.Domain.Helpers;
@@ -50,7 +51,7 @@ public class Helpers
         return new StringContent(soapEnvelope.ToString(), null, "text/xml");
     }
 
-    public static StringContent CreateSoapEnvelopeContentPrescriptionExecution(
+    public static StringContent CreateSoapEnvelopeContentPrescriptionRetrieve(
         string username, 
         string password, 
         string codeSeq,
@@ -139,6 +140,84 @@ public class Helpers
                         new XElement("prescriptReferNumber", prescriptReferNumber),                        
                         new XElement("supplBranchCode", supplBranchCode),
                         new XElement("userId", userId)
+                    )
+                )
+            )
+        );
+
+        return new StringContent(soapEnvelope.ToString(), null, "text/xml");
+    }
+
+    public static StringContent CreateSoapEnvelopeContentPrescriptionExecution(
+        string username,
+        string password,
+        PrescriptionExecutionModel prescriptionExecution
+        )
+    {
+        XNamespace soapenv = _soapenv;
+        XNamespace eop = _eop;
+        XNamespace wsse = _wsse;
+        XNamespace wsu = _wsu;
+
+        var prescriptionDetailsElements = prescriptionExecution.prescriptionDetailsList
+            .Select(prescriptionDetail =>
+                new XElement("prescriptionDetail",
+                    new XElement("aa", prescriptionDetail.aa),
+                    new XElement("medicalProcedureId", prescriptionDetail.medicalProcedureId),
+                    new XElement("vat", prescriptionDetail.vat),
+                    new XElement("quantity", prescriptionDetail.quantity),
+                    new XElement("saveQuantity", prescriptionDetail.saveQuantity),
+                    new XElement("barcodeMapList",
+                        prescriptionDetail.barcodeMap.Select(barcode =>
+                            new XElement("barcodeMap",
+                                new XElement("proc_aa", barcode.proc_aa),
+                                new XElement("barcode", barcode.barcode),
+                                new XElement("ekapty", barcode.ekapty),
+                                new XElement("qty", barcode.qty),
+                                new XElement("unit_price", barcode.unit_price)
+                            )
+                        )
+                    )
+                )
+            );
+
+        XDocument soapEnvelope = new(
+            new XElement(soapenv + "Envelope",
+                new XAttribute(XNamespace.Xmlns + "eop", eop),
+                new XAttribute(XNamespace.Xmlns + "soapenv", soapenv),
+                new XElement(soapenv + "Header",
+                    new XElement(wsse + "Security",
+                        new XAttribute(soapenv + "mustUnderstand", "1"),
+                        new XAttribute(XNamespace.Xmlns + "wsse", wsse),
+                        new XAttribute(XNamespace.Xmlns + "wsu", wsu),
+                        new XElement(wsse + "UsernameToken",
+                            new XAttribute(wsu + "Id", "UsernameToken-B32BFDE586617399FF17115676929155"),
+                            new XElement(wsse + "Username", username),
+                            new XElement(wsse + "Password",
+                                new XAttribute("Type", _wsType),
+                                password
+                            )
+                        )
+                    )
+                ),
+                new XElement(soapenv + "Body",
+                    new XElement(eop + "executeElectronicPrescription",
+                        new XElement("PrescriptionEntry",
+                            new XElement("EMessageNumber", prescriptionExecution.EMessageNumber),
+                            new XElement("duration_end", prescriptionExecution.duration_end),
+                            new XElement("examinedAmka", prescriptionExecution.examinedAmka),
+                            new XElement("examinedFirstname", prescriptionExecution.examinedFirstname),
+                            new XElement("examinedLastname", prescriptionExecution.examinedLastname),
+                            new XElement("execDateStr", prescriptionExecution.execDateStr),
+                            new XElement("issueDateStr", prescriptionExecution.issueDateStr),
+                            new XElement("prescrDocCode", prescriptionExecution.prescrDocCode),
+                            new XElement("prescrDocFirstname", prescriptionExecution.prescrDocFirstname),
+                            new XElement("prescrDocLastname", prescriptionExecution.prescrDocLastname),
+                            new XElement("prescriptionNumber", prescriptionExecution.prescriptionNumber),
+                            new XElement("supplBranchCode", prescriptionExecution.supplBranchCode),
+                            new XElement("userId", prescriptionExecution.userId),
+                            new XElement("prescriptionDetailsList", prescriptionDetailsElements)
+                        )
                     )
                 )
             )

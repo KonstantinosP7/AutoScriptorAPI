@@ -66,6 +66,12 @@ public class XMLObjects
         [XmlElement(ElementName = "prescrDocLastname")]
         public string PrescrDocLastname { get; set; }
 
+        [XmlElement(ElementName = "error")]
+        public string Error { get; set; }
+
+        [XmlElement(ElementName = "errorCode")]
+        public string ErrorCode { get; set; }
+
         [XmlElement(ElementName = "prescriptionPrintOut")]
         public PrescriptionPrintOut PrescriptionPrintOut { get; set; }
     }
@@ -84,5 +90,36 @@ public class XMLObjects
 
         [XmlElement(ElementName = "fileName")]
         public string FileName { get; set; }
+    }
+
+    [XmlRoot("ResultBeanEPrescription")]
+    public class ResultBeanEPrescription
+    {
+        [XmlElement("prescriptionExceptions")]
+        public PrescriptionExceptions PrescriptionExceptions { get; set; }
+
+        [XmlElement("submissionOut")]
+        public SubmissionOut SubmissionOut { get; set; }
+    }
+
+    public class PrescriptionExceptions
+    {
+        [XmlElement("descr")]
+        public string Descr { get; set; }
+
+        [XmlElement("errorCode")]
+        public string ErrorCode { get; set; }
+    }
+
+    public class SubmissionOut
+    {
+        [XmlElement("codeSeq")]
+        public string CodeSeq { get; set; }
+
+        [XmlElement("invSeqNum")]
+        public string InvSeqNum { get; set; }
+
+        [XmlElement("status")]
+        public string Status { get; set; }
     }
 }
