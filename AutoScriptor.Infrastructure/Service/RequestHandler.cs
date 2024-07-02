@@ -17,4 +17,28 @@ public class RequestHandler(IEoppyEservices eoppyEservices) : IRequestHandler
             return null;
         }
     }
+
+    public async Task<string> HandleRequestPrescriptionExecutionRetrieve(string prescriptionNumber)
+    {
+        try
+        {
+            return await _eoppyServices.PrescriptionExecutionRetrieve(null, null, null, null).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
+
+    public async Task<string> HandleRequestPrescriptionCancel()
+    {
+        try
+        {
+            return await _eoppyServices.PrescriptionCancel(null, null, null, null, null).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
 }

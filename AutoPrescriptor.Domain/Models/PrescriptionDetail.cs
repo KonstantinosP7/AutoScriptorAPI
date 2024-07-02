@@ -1,0 +1,2 @@
+﻿namespace AutoPrescriptor.Domain.Models;
+

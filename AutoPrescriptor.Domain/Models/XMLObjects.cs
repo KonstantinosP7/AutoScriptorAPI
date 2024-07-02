@@ -70,4 +70,19 @@ public class XMLObjects
         public PrescriptionPrintOut PrescriptionPrintOut { get; set; }
     }
 
+    [XmlRoot(ElementName = "SubmissionPrintOut")]
+    public class SubmissionPrintOut
+    {
+        [XmlElement(ElementName = "errNo")]
+        public string ErrNo { get; set; }
+
+        [XmlElement(ElementName = "errtxt")]
+        public string ErrTxt { get; set; }
+
+        [XmlElement(ElementName = "fileData")]
+        public string FileData { get; set; }
+
+        [XmlElement(ElementName = "fileName")]
+        public string FileName { get; set; }
+    }
 }

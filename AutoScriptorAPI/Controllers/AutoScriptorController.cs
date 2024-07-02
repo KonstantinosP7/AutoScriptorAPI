@@ -46,9 +46,45 @@ public class AutoScriptorController : ControllerBase
     /// <response code="401">A 401 if the specified token is not authorized.</response>
     /// <response code="500">A 500 something wrong has happened.</response>
     /// <returns></returns>
-    [HttpPost(Name = "PrescriptionRetrieve")]
+    [HttpPost("PrescriptionRetrieve")]
     public async Task<IActionResult> PrescriptionRetrieve([FromQuery] string prescriptionNumber)
     {
         return Ok(await _requestHandler.HandleRequestPrescriptionRetrieve(prescriptionNumber).ConfigureAwait(false));
+    }
+
+    /// <summary>
+    /// Returns prescription execution given prescriptionNumber
+    /// </summary>
+    /// <remarks>
+    /// Sample request
+    /// 
+    ///     POST api/PrescriptionExecutionRetrieve
+    /// </remarks>
+    /// <response code="200">A 200 returns response succesfully.</response>
+    /// <response code="401">A 401 if the specified token is not authorized.</response>
+    /// <response code="500">A 500 something wrong has happened.</response>
+    /// <returns></returns>
+    [HttpPost("PrescriptionExecutionRetrieve")]
+    public async Task<IActionResult> PrescriptionExecutionRetrieve([FromQuery] string prescriptionNumber)
+    {
+        return Ok(await _requestHandler.HandleRequestPrescriptionExecutionRetrieve(prescriptionNumber).ConfigureAwait(false));
+    }
+
+    /// <summary>
+    /// Returns prescription execution given prescriptionNumber
+    /// </summary>
+    /// <remarks>
+    /// Sample request
+    /// 
+    ///     POST api/PrescriptionExecutionRetrieve
+    /// </remarks>
+    /// <response code="200">A 200 returns response succesfully.</response>
+    /// <response code="401">A 401 if the specified token is not authorized.</response>
+    /// <response code="500">A 500 something wrong has happened.</response>
+    /// <returns></returns>
+    [HttpPost("PrescriptionCancel")]
+    public async Task<IActionResult> PrescriptionCancel([FromQuery] string referenceNumber)
+    {
+        return Ok(await _requestHandler.HandleRequestPrescriptionCancel().ConfigureAwait(false));
     }
 }
