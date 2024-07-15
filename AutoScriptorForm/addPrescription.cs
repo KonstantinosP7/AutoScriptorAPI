@@ -11,7 +11,7 @@ namespace AutoScriptorForm
         public addPrescription()
         {
             InitializeComponent();
-            PdfCommon.Initialize();
+            //PdfCommon.Initialize();
         }
 
         private void materialButton1_Click(object sender, EventArgs e)
@@ -36,7 +36,7 @@ namespace AutoScriptorForm
 
             File.WriteAllBytes(_prescription.PrescriptionPrintOut.FileName, fileBytes);
 
-            pdfVr.LoadDocument(_prescription.PrescriptionPrintOut.FileName);
+            //pdfVr.LoadDocument(_prescription.PrescriptionPrintOut.FileName);
             FillPrescriptionDate();
         }
 

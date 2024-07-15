@@ -11,7 +11,7 @@ public class RequestHandler(IEoppyEservices eoppyEservices) : IRequestHandler
     {
         try
         {
-            return await _eoppyServices.PrescriptionRetrieve(null, null, null).ConfigureAwait(false);
+            return await _eoppyServices.PrescriptionRetrieve(null).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -97,4 +97,11 @@ public class RequestHandler(IEoppyEservices eoppyEservices) : IRequestHandler
 
         return prescriptionExecution;
     }
+    public Task<string> HandleRequestPrescriptionInsert(string prescriptionNumber)
+    {
+        //retrieve prescription from eoppy
+        var pr = _eoppyServices.PrescriptionRetrieve( prescriptionNumber );
+
+    }
+
 }

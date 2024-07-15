@@ -1,6 +1,7 @@
 ﻿using AutoPrescriptor.Domain.Helpers;
 using AutoPrescriptor.Domain.Models;
 using AutoScriptor.Infrastructure.Interface;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System.Xml.Serialization;
 using static AutoScriptorForm.XMLObjects;
@@ -9,20 +10,23 @@ namespace AutoScriptor.Infrastructure.Service;
 
 public class EoppyEservices : IEoppyEservices
 {
-    private static readonly string _username = "sunmedwebser";
-    private static readonly string _password = "Sun2018med";
-    private static readonly string _gate = "https://eservices.eopyy.gov.gr:443/dapyPrescriptionWS-Test-dapyPrescriptionWS-Test-context-root/ServicePort";//"https://eservices.eopyy.gov.gr/dapyPrescriptionWS-dapyPrescriptionWS-context-root/ServicePort?wsdl"
-    public async Task<string> PrescriptionRetrieve(string prescriptionNumber = "022023056350421", string supplBranchCode= "64355" ,string eMessageNumber = "SUNMED_MEDICAL_SA123")
+    private readonly CommunicationSettings _settings;
+    public EoppyEservices(IOptions<CommunicationSettings> settings)
+    {
+        _settings = settings.Value;
+    }
+    
+    public async Task<EPrescription> PrescriptionRetrieve(string prescriptionNumber = "022023056350421")
     {
         EPrescription prescription;
-        var base64credentials = Helpers.ConvertToBase64Credentials(_username, _password);
+        var base64credentials = Helpers.ConvertToBase64Credentials(_settings.username, _settings.password);
         var client = new HttpClient();
         var request = new HttpRequestMessage(
             HttpMethod.Post,
-            _gate
+            _settings.gate
         );
         request.Headers.Add("Authorization", $"Basic {base64credentials}");
-        var content = Helpers.CreateSoapEnvelopeContent(_username, _password, prescriptionNumber, eMessageNumber, supplBranchCode);
+        var content = Helpers.CreateSoapEnvelopeContent(_settings.username, _settings.password, prescriptionNumber, _settings.eMessageNumber, _settings.supplBranchCode);
 
         request.Content = content;
         var response = await client.SendAsync(request).ConfigureAwait(false);
@@ -38,7 +42,7 @@ public class EoppyEservices : IEoppyEservices
         }
 
 
-        return JsonConvert.SerializeObject(prescription);
+        return prescription;
     }
 
     /// <summary>
@@ -53,14 +57,14 @@ public class EoppyEservices : IEoppyEservices
         try
         {
             SubmissionPrintOut prescription;
-            var base64credentials = Helpers.ConvertToBase64Credentials(_username, _password);
+            var base64credentials = Helpers.ConvertToBase64Credentials(_settings.username, _settings.password);
             var client = new HttpClient();
             var request = new HttpRequestMessage(
                 HttpMethod.Post,
-                _gate
+                _settings.gate
             );
             request.Headers.Add("Authorization", $"Basic {base64credentials}");
-            var content = Helpers.CreateSoapEnvelopeContentPrescriptionRetrieve(_username, _password, codeSeq, invSeqNum, eMessageNumber, supplBranchCode);
+            var content = Helpers.CreateSoapEnvelopeContentPrescriptionRetrieve(_settings.username, _settings.password, codeSeq, invSeqNum, eMessageNumber, supplBranchCode);
 
             request.Content = content;
             var response = await client.SendAsync(request).ConfigureAwait(false);
@@ -140,14 +144,14 @@ public class EoppyEservices : IEoppyEservices
         try
         {
             ResultBeanEPrescription prescription;
-            var base64credentials = Helpers.ConvertToBase64Credentials(_username, _password);
+            var base64credentials = Helpers.ConvertToBase64Credentials(_settings.username, _settings.password);
             var client = new HttpClient();
             var request = new HttpRequestMessage(
                 HttpMethod.Post,
-                _gate
+                _settings.gate
             );
             request.Headers.Add("Authorization", $"Basic {base64credentials}");
-            var content = Helpers.CreateSoapEnvelopeContentPrescriptionExecution(_username, _password, prescriptionToExecute);
+            var content = Helpers.CreateSoapEnvelopeContentPrescriptionExecution(_settings.username, _settings.password, prescriptionToExecute);
 
             request.Content = content;
             var response = await client.SendAsync(request).ConfigureAwait(false);

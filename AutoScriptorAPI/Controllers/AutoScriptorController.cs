@@ -105,4 +105,22 @@ public class AutoScriptorController : ControllerBase
     {
         return Ok(await _requestHandler.HandleRequestPrescriptionExecution(prescriptionNumber).ConfigureAwait(false));
     }
+
+    /// <summary>
+    /// Executes the prescription
+    /// </summary>
+    /// <remarks>
+    /// Sample request
+    /// 
+    ///     POST api/PrescriptionInsert
+    /// </remarks>
+    /// <response code="200">A 200 returns response succesfully.</response>
+    /// <response code="401">A 401 if the specified token is not authorized.</response>
+    /// <response code="500">A 500 something wrong has happened.</response>
+    /// <returns></returns>
+    [HttpPost("PrescriptionInsert")]
+    public async Task<IActionResult> PrescriptionInsert([FromBody] string prescriptionNumber)
+    {
+        return Ok(await _requestHandler.HandleRequestPrescriptionExecution(prescriptionNumber).ConfigureAwait(false));
+    }
 }
