@@ -47,7 +47,10 @@ public class RequestHandler(IEoppyEservices eoppyEservices) : IRequestHandler
     {
         try
         {
-            return await _eoppyServices.PrescriptionExecution(prescriptionExecutionSample()).ConfigureAwait(false);
+            //first steop: retrieve prescription data
+            var prescriptionRetrieved = await _eoppyServices.PrescriptionRetrieve(prescriptionNumber).ConfigureAwait(false);
+
+
         }
         catch (Exception ex)
         {
@@ -97,10 +100,16 @@ public class RequestHandler(IEoppyEservices eoppyEservices) : IRequestHandler
 
         return prescriptionExecution;
     }
-    public Task<string> HandleRequestPrescriptionInsert(string prescriptionNumber)
+    public async Task<string> HandleRequestPrescriptionInsert(string prescriptionNumber, string serialNumber)
     {
         //retrieve prescription from eoppy
-        var pr = _eoppyServices.PrescriptionRetrieve( prescriptionNumber );
+        var prescriptionRetrieved = await _eoppyServices.PrescriptionRetrieve(prescriptionNumber).ConfigureAwait(false);
+
+        //TODO: here I have to compute the days I want to rent the breath machine.
+        var daysRequested = Random.Shared.Next(1, 30);
+        //second step: retrieve breath barcodes from eopyy:
+        var barcodes = await _eoppyServices.RetrieveBreathBarcodes(serialNumber, daysRequested).ConfigureAwait(false);
+
 
     }
 

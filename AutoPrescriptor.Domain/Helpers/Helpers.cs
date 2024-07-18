@@ -226,6 +226,52 @@ public class Helpers
         return new StringContent(soapEnvelope.ToString(), null, "text/xml");
     }
 
+    public static StringContent CreateSoapEnvelopeContentRetrieveBreathBarcodes(
+        string username,
+        string password,
+        string ekapty,
+        string serialNumber,
+        int days,
+        string supplBranchCode)
+    {
+        XNamespace soapenv = _soapenv;
+        XNamespace eop = _eop;
+        XNamespace wsse = _wsse;
+        XNamespace wsu = _wsu;
+
+        XDocument soapEnvelope = new(
+            new XElement(soapenv + "Envelope",
+                new XAttribute(XNamespace.Xmlns + "eop", eop),
+                new XAttribute(XNamespace.Xmlns + "soapenv", soapenv),
+                new XElement(soapenv + "Header",
+                    new XElement(wsse + "Security",
+                        new XAttribute(soapenv + "mustUnderstand", "1"),
+                        new XAttribute(XNamespace.Xmlns + "wsse", wsse),
+                        new XAttribute(XNamespace.Xmlns + "wsu", wsu),
+                        new XElement(wsse + "UsernameToken",
+                            new XAttribute(wsu + "Id", "UsernameToken-B32BFDE586617399FF17115676929155"),
+                            new XElement(wsse + "Username", username),
+                            new XElement(wsse + "Password",
+                                new XAttribute("Type", _wsType),
+                                password
+                            )
+                        )
+                    )
+                ),
+                new XElement(soapenv + "Body",
+                    new XElement(eop + "retrieveBreathBarcodes",
+                            new XElement("ekapty", ekapty),
+                            new XElement("serialNumber", serialNumber),                            
+                            new XElement("supplBranchCode", supplBranchCode),
+                            new XElement("days", days)
+                    )
+                )
+            )
+        );
+
+        return new StringContent(soapEnvelope.ToString(), null, "text/xml");
+    }
+
     public static string ConvertToBase64Credentials(string username, string password)
     {
         string combined = $"{username}:{password}";

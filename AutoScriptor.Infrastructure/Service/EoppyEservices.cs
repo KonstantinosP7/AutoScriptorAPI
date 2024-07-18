@@ -175,4 +175,45 @@ public class EoppyEservices : IEoppyEservices
         }
     }
 
+    /// <summary>
+    /// Retrieve Breath Barcodes
+    /// </summary>
+    /// <param name="serialNumber"></param>
+    /// <param name="days"></param>
+    /// <returns></returns>
+    public async Task<string> RetrieveBreathBarcodes(string serialNumber, int days)
+    {
+        try
+        {
+            ReturnBarcode prescription;
+            var base64credentials = Helpers.ConvertToBase64Credentials(_settings.username, _settings.password);
+            var client = new HttpClient();
+            var request = new HttpRequestMessage(
+                HttpMethod.Post,
+                _settings.gate
+            );
+            request.Headers.Add("Authorization", $"Basic {base64credentials}");
+            var content = Helpers.CreateSoapEnvelopeContentRetrieveBreathBarcodes(_settings.username, _settings.password, _settings.eDapy, serialNumber, days, _settings.supplBranchCode);
+
+            request.Content = content;
+            var response = await client.SendAsync(request).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            var xmlResponse = await response.Content.ReadAsStringAsync();
+            xmlResponse = xmlResponse.Replace("<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\"><S:Body><ns2:retrieveBreathBarcodesResponse xmlns:ns2=\"http://eopyy.ws.intracom.com/\">", string.Empty);
+            xmlResponse = xmlResponse.Replace("</ns2:retrieveBreathBarcodesResponse></S:Body></S:Envelope>", string.Empty);
+
+            XmlSerializer serializer = new(typeof(ReturnBarcode));
+            using (StringReader reader = new(xmlResponse))
+            {
+                prescription = (ReturnBarcode)serializer.Deserialize(reader);
+            }
+
+
+            return JsonConvert.SerializeObject(prescription);
+        }
+        catch (Exception ex)
+        {
+            return ex.Message;
+        }
+    }
 }

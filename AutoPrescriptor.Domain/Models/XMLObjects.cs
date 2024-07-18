@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using AutoPrescriptor.Domain.Models;
+using System.Xml.Serialization;
 
 namespace AutoScriptorForm;
 
@@ -121,5 +122,18 @@ public class XMLObjects
 
         [XmlElement("status")]
         public string Status { get; set; }
+    }
+
+    [XmlRoot(ElementName = "ReturnBarcode")]
+    public class ReturnBarcode
+    {
+        [XmlElement("barcodeMap")]
+        public BarcodeMap BarcodeMap { get; set; }
+
+        [XmlElement(ElementName = "error")]
+        public string Error { get; set; }
+
+        [XmlElement(ElementName = "errorCode")]
+        public string ErrorCode { get; set; }
     }
 }

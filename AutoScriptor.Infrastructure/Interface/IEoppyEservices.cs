@@ -9,4 +9,5 @@ public interface IEoppyEservices
     public Task<string> PrescriptionExecutionRetrieve(string invSeqNum, string codeSeq, string supplBranchCode, string eMessageNumber);
     public Task<string> PrescriptionCancel(string issueDate, string prescriptReferNumber, string userId, string supplBranchCode, string eMessageNumber);
     public Task<string> PrescriptionExecution(PrescriptionExecutionModel prescriptionToExecute);
+    public Task<string> RetrieveBreathBarcodes(string serialNumber, int days);
 }
