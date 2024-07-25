@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSingleton<IRequestHandler, RequestHandler>();
 builder.Services.AddSingleton<IEoppyEservices, EoppyEservices>();
+builder.Services.AddSingleton<IDBHandler, DBHandler>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

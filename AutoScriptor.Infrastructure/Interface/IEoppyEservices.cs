@@ -6,8 +6,8 @@ namespace AutoScriptor.Infrastructure.Interface;
 public interface IEoppyEservices
 {
     public Task<EPrescription> PrescriptionRetrieve(string prescriptionNumber);
-    public Task<string> PrescriptionExecutionRetrieve(string invSeqNum, string codeSeq, string supplBranchCode, string eMessageNumber);
-    public Task<string> PrescriptionCancel(string issueDate, string prescriptReferNumber, string userId, string supplBranchCode, string eMessageNumber);
-    public Task<string> PrescriptionExecution(PrescriptionExecutionModel prescriptionToExecute);
-    public Task<string> RetrieveBreathBarcodes(string serialNumber, int days);
+    public Task<SubmissionPrintOut> PrescriptionExecutionRetrieve(string invSeqNum, string codeSeq);
+    public Task<SubmissionCancelOut> PrescriptionCancel(string examinedAmka, string issueDate, string prescriptionNumber);
+    public Task<ReturnBarcode> RetrieveBreathBarcodes(string serialNumber, string ekapty, int days);
+    public Task<ResultBeanEPrescription> PrescriptionExecution(PrescriptionExecutionModel prescriptionToExecute);    
 }

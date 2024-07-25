@@ -1,10 +1,15 @@
-﻿namespace AutoScriptor.Infrastructure.Interface;
+﻿using AutoPrescriptor.Domain.Models;
+using static AutoScriptorForm.XMLObjects;
+
+namespace AutoScriptor.Infrastructure.Interface;
 
 public interface IRequestHandler
 {
-    public Task<string> HandleRequestPrescriptionRetrieve(string prescriptionNumber);
-    public Task<string> HandleRequestPrescriptionExecutionRetrieve(string prescriptionNumber);
-    public Task<string> HandleRequestPrescriptionCancel();
-    public Task<string> HandleRequestPrescriptionExecution(string prescriptionNumber);
+    public Task<EPrescription> HandleRequestPrescriptionRetrieve(string prescriptionNumber);
+    public Task<SubmissionPrintOut> HandleRequestPrescriptionExecutionRetrieve(string invSeqNo, string codeSeq);
+    public Task<SubmissionCancelOut> HandleRequestPrescriptionCancel(string prescriptionNumber);
+    public Task<ReturnBarcode> HandleRequestRetrieveBreathCodes(string serialNumber, string ekapty, int days);
+    public Task<ResultBeanEPrescription> HandleRequestPrescriptionExecution(string prescriptionNumber);
     public Task<string> HandleRequestPrescriptionInsert(string prescriptionNumber);
+    public Task<IEnumerable<NewPrescription>> HandleRequestExecuteDailyPrescriptions(DateTime date);
 }

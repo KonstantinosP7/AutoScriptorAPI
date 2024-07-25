@@ -12,7 +12,7 @@ public class Helpers
     private static string _wsu = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd";
     private static string _wsType = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText";
 
-    public static StringContent CreateSoapEnvelopeContent(string username, string password, string prescriptionNumber, string eMessageNumber, string supplBranchCode)
+    public static StringContent CreateSoapEnvelopeContentPrescriptionRetrieve(string username, string password, string prescriptionNumber, string eMessageNumber, string supplBranchCode)
     {
         XNamespace soapenv = _soapenv;
         XNamespace eop = _eop;
@@ -51,7 +51,7 @@ public class Helpers
         return new StringContent(soapEnvelope.ToString(), null, "text/xml");
     }
 
-    public static StringContent CreateSoapEnvelopeContentPrescriptionRetrieve(
+    public static StringContent CreateSoapEnvelopeContentPrescriptionExecutionRetrieve(
         string username, 
         string password, 
         string codeSeq,
@@ -102,6 +102,7 @@ public class Helpers
     public static StringContent CreateSoapEnvelopeContentPrescriptionCancel(
         string username,
         string password,
+        string examinedAmka,
         string issueDate,
         string prescriptReferNumber,
         string userId,
@@ -134,12 +135,14 @@ public class Helpers
                 ),
                 new XElement(soapenv + "Body",
                     new XElement(eop + "cancelElectronicPrescription",
-                        new XElement("eMessageNumber", eMessageNumber),
-                        new XElement("issueDate", issueDate),
-                        new XElement("issueDate", issueDate),
-                        new XElement("prescriptReferNumber", prescriptReferNumber),                        
-                        new XElement("supplBranchCode", supplBranchCode),
-                        new XElement("userId", userId)
+                        new XElement("EPrescriptionCancel",
+                            new XElement("EMessageNumber", eMessageNumber),
+                            new XElement("examinedAmka", examinedAmka),
+                            new XElement("issueDate", issueDate),
+                            new XElement("prescriptReferNumber", prescriptReferNumber),
+                            new XElement("supplBranchCode", supplBranchCode),
+                            new XElement("userId", userId)
+                        )
                     )
                 )
             )
@@ -151,6 +154,9 @@ public class Helpers
     public static StringContent CreateSoapEnvelopeContentPrescriptionExecution(
         string username,
         string password,
+        string eMessageNumber,
+        string supplBranchCode,
+        string userId,
         PrescriptionExecutionModel prescriptionExecution
         )
     {
@@ -203,7 +209,7 @@ public class Helpers
                 new XElement(soapenv + "Body",
                     new XElement(eop + "executeElectronicPrescription",
                         new XElement("PrescriptionEntry",
-                            new XElement("EMessageNumber", prescriptionExecution.EMessageNumber),
+                            new XElement("EMessageNumber", eMessageNumber),
                             new XElement("duration_end", prescriptionExecution.duration_end),
                             new XElement("examinedAmka", prescriptionExecution.examinedAmka),
                             new XElement("examinedFirstname", prescriptionExecution.examinedFirstname),
@@ -214,8 +220,8 @@ public class Helpers
                             new XElement("prescrDocFirstname", prescriptionExecution.prescrDocFirstname),
                             new XElement("prescrDocLastname", prescriptionExecution.prescrDocLastname),
                             new XElement("prescriptionNumber", prescriptionExecution.prescriptionNumber),
-                            new XElement("supplBranchCode", prescriptionExecution.supplBranchCode),
-                            new XElement("userId", prescriptionExecution.userId),
+                            new XElement("supplBranchCode", supplBranchCode),
+                            new XElement("userId", userId),
                             new XElement("prescriptionDetailsList", prescriptionDetailsElements)
                         )
                     )

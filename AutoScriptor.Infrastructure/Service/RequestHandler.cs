@@ -1,17 +1,22 @@
 ﻿using AutoPrescriptor.Domain.Models;
 using AutoScriptor.Infrastructure.Interface;
+using eoppyEservices;
+using System.Globalization;
+using System.Text.Json;
+using static AutoScriptorForm.XMLObjects;
 
 namespace AutoScriptor.Infrastructure.Service;
 
-public class RequestHandler(IEoppyEservices eoppyEservices) : IRequestHandler
+public class RequestHandler(IEoppyEservices eoppyEservices, IDBHandler dBHandler) : IRequestHandler
 {
     private readonly IEoppyEservices _eoppyServices = eoppyEservices;
+    private readonly IDBHandler _dBHandler = dBHandler;
 
-    public async Task<string> HandleRequestPrescriptionRetrieve(string prescriptionNumber)
+    public async Task<EPrescription> HandleRequestPrescriptionRetrieve(string prescriptionNumber)
     {
         try
         {
-            return await _eoppyServices.PrescriptionRetrieve(null).ConfigureAwait(false);
+            return await _eoppyServices.PrescriptionRetrieve(prescriptionNumber).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -19,11 +24,11 @@ public class RequestHandler(IEoppyEservices eoppyEservices) : IRequestHandler
         }
     }
 
-    public async Task<string> HandleRequestPrescriptionExecutionRetrieve(string prescriptionNumber)
+    public async Task<SubmissionPrintOut> HandleRequestPrescriptionExecutionRetrieve(string invSeqNo, string codeSeq)
     {
         try
         {
-            return await _eoppyServices.PrescriptionExecutionRetrieve(null, null, null, null).ConfigureAwait(false);
+            return await _eoppyServices.PrescriptionExecutionRetrieve(invSeqNo, codeSeq).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -31,11 +36,12 @@ public class RequestHandler(IEoppyEservices eoppyEservices) : IRequestHandler
         }
     }
 
-    public async Task<string> HandleRequestPrescriptionCancel()
+    public async Task<SubmissionCancelOut> HandleRequestPrescriptionCancel(string prescriptionNumber)
     {
         try
         {
-            return await _eoppyServices.PrescriptionCancel(null, null, null, null, null).ConfigureAwait(false);
+            var retreivedPrescription = await _eoppyServices.PrescriptionRetrieve(prescriptionNumber).ConfigureAwait(false);
+            return await _eoppyServices.PrescriptionCancel(retreivedPrescription.ExaminedAmka.ToString(), retreivedPrescription.IssueDateStr, prescriptionNumber).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -43,14 +49,11 @@ public class RequestHandler(IEoppyEservices eoppyEservices) : IRequestHandler
         }
     }
 
-    public async Task<string> HandleRequestPrescriptionExecution(string prescriptionNumber)
+    public async Task<ReturnBarcode> HandleRequestRetrieveBreathCodes(string serialNumber, string ekapty, int days)
     {
         try
         {
-            //first steop: retrieve prescription data
-            var prescriptionRetrieved = await _eoppyServices.PrescriptionRetrieve(prescriptionNumber).ConfigureAwait(false);
-
-
+            return await _eoppyServices.RetrieveBreathBarcodes(serialNumber, ekapty, days).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -58,59 +61,99 @@ public class RequestHandler(IEoppyEservices eoppyEservices) : IRequestHandler
         }
     }
 
-    internal PrescriptionExecutionModel prescriptionExecutionSample()
+    public async Task<ResultBeanEPrescription> HandleRequestPrescriptionExecution(string prescriptionNumber)
     {
-        // Create sample BarcodeMap instances
-        var barcodeMaps1 = new List<BarcodeMap>
+        try
         {
-            new BarcodeMap("1", "1234567890123", "E1", "10", "1.23"),
-            new BarcodeMap("2", "2345678901234", "E2", "20", "2.34")
-        };
-
-        var barcodeMaps2 = new List<BarcodeMap>
+            return await _eoppyServices.PrescriptionExecution(null).ConfigureAwait(false);
+        }
+        catch (Exception ex)
         {
-            new BarcodeMap("3", "3456789012345", "E3", "30", "3.45"),
-            new BarcodeMap("4", "4567890123456", "E4", "40", "4.56")
-        };
-
-        // Create sample PrescriptionDetail instances
-        var prescriptionDetails = new List<PrescriptionDetail>
-        {
-            new PrescriptionDetail("1", "MP1", "23%", "2", "2", barcodeMaps1),
-            new PrescriptionDetail("2", "MP2", "18%", "3", "3", barcodeMaps2)
-        };
-
-        // Create a sample PrescriptionExecutionModel instance
-        var prescriptionExecution = new PrescriptionExecutionModel(
-            "EM001",
-            "2023-07-01",
-            "12345678901",
-            "John",
-            "Doe",
-            "2023-07-01",
-            "2023-06-30",
-            "D001",
-            "Jane",
-            "Smith",
-            "PN12345",
-            "B001",
-            "U001",
-            prescriptionDetails
-        );
-
-        return prescriptionExecution;
+            return null;
+        }
     }
-    public async Task<string> HandleRequestPrescriptionInsert(string prescriptionNumber, string serialNumber)
+
+    public async Task<string> HandleRequestPrescriptionInsert(string prescriptionNumber)
     {
+        var res = await _dBHandler.RetrieveBreathDevices().ConfigureAwait(false);
+
         //retrieve prescription from eoppy
         var prescriptionRetrieved = await _eoppyServices.PrescriptionRetrieve(prescriptionNumber).ConfigureAwait(false);
+        
+        //retrieve days of execution
+        var days = ResolveDaysOfExecution(prescriptionRetrieved);
 
-        //TODO: here I have to compute the days I want to rent the breath machine.
-        var daysRequested = Random.Shared.Next(1, 30);
-        //second step: retrieve breath barcodes from eopyy:
-        var barcodes = await _eoppyServices.RetrieveBreathBarcodes(serialNumber, daysRequested).ConfigureAwait(false);
+        //retrieve device barcodes
+        var barcodeRequest = await _eoppyServices.RetrieveBreathBarcodes("serialNumber", prescriptionRetrieved.ExaminationFirst.EDapiCode, days).ConfigureAwait(false);
+        var barcodes = barcodeRequest.BarcodeMap;
 
+        var unitPrice = ResolveUnitPrice(days, prescriptionRetrieved.ExaminationFirst.EDapiCode, res);
 
+        //create execution model
+        var barcodeMap = new BarcodeMapInput()
+        {
+            proc_aa = barcodes?.proc_aa ?? "0",
+            barcode = barcodes?.barcode ?? Guid.NewGuid().ToString(),
+            ekapty = prescriptionRetrieved.ExaminationFirst.EDapiCode,
+            qty = "1",
+            unit_price = unitPrice
+        };
+        var newPrescriptionList = new PrescriptionDetail
+        {
+            aa = "1",
+            medicalProcedureId = prescriptionRetrieved.ExaminationFirst.EDapiCode,
+            vat = "24",
+            quantity = "1",
+            saveQuantity = "1",
+            barcodeMap = new List<BarcodeMapInput> { barcodeMap }
+        };
+        var newPrescriptionModel = new PrescriptionExecutionModel
+        {
+            duration_end = prescriptionRetrieved.DurationEnd.ToString("dd/MM/yyyy"),
+            examinedAmka = prescriptionRetrieved.ExaminedAmka.ToString(),
+            examinedFirstname = prescriptionRetrieved.ExaminedFirstname,
+            examinedLastname = prescriptionRetrieved.ExaminedLastname,
+            execDateStr = prescriptionRetrieved.DurationEnd.ToString("dd/MM/yyyy"),
+            issueDateStr = prescriptionRetrieved.IssueDateStr,
+            prescrDocCode = prescriptionRetrieved.PrescrDocCode.ToString(),
+            prescrDocFirstname = prescriptionRetrieved.PrescrDocFirstname,
+            prescrDocLastname = prescriptionRetrieved.PrescrDocLastname,
+            prescriptionNumber = prescriptionNumber,
+            prescriptionDetailsList = new List<PrescriptionDetail> { newPrescriptionList }
+        };
+
+        var newPrescription = new NewPrescription
+        {
+            ExecutionDate = prescriptionRetrieved.DurationEnd,
+            PrescriptionData = JsonSerializer.Serialize(newPrescriptionModel)
+        };
+
+        await _dBHandler.InsertNewPrescription(newPrescription);
+
+        return null;
     }
 
+    public async Task<IEnumerable<NewPrescription>> HandleRequestExecuteDailyPrescriptions(DateTime date)
+    {
+        var dailyPrescriptions = await _dBHandler.RetrieveDailyPrescriptions(date).ConfigureAwait(false);
+
+        return dailyPrescriptions;
+    }
+
+    private static int ResolveDaysOfExecution(EPrescription ePrescription)
+    {
+        var issueDate = DateTime.ParseExact(ePrescription.IssueDateStr, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+        var executionDate = ePrescription.DurationEnd;
+
+        var difference = executionDate - issueDate;
+
+        return difference.Days;
+    }
+
+    private static string ResolveUnitPrice(int days, string ekapty, IEnumerable<BreathDevices> devices)
+    {
+        var totalPrice = devices.Where(d => d.ekapty == ekapty).Select(i => i.Price).FirstOrDefault() ?? 0;
+
+        return Math.Round(totalPrice / days, 2).ToString("F4");
+    }
 }

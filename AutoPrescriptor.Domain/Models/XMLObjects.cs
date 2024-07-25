@@ -19,7 +19,7 @@ public class XMLObjects
         public int Quantity { get; set; }
 
         [XmlElement(ElementName = "eDapiCode")]
-        public int EDapiCode { get; set; }
+        public string EDapiCode { get; set; }
     }
 
     [XmlRoot(ElementName = "prescriptionPrintOut")]
@@ -135,5 +135,25 @@ public class XMLObjects
 
         [XmlElement(ElementName = "errorCode")]
         public string ErrorCode { get; set; }
+    }
+
+    [XmlRoot(ElementName = "barcodeMap")]
+    public class BarcodeMap
+    {
+        [XmlElement(ElementName = "barcode")]
+        public string barcode { get; set; }
+
+        [XmlElement(ElementName = "proc_aa")]
+        public string proc_aa { get; set; }        
+    }
+
+    [XmlRoot(ElementName = "SubmissionOut")]
+    public class SubmissionCancelOut
+    {
+        [XmlElement(ElementName = "errNo")]
+        public string ErrNo { get; set; }
+
+        [XmlElement(ElementName = "errtxt")]
+        public string ErrTxt { get; set; }
     }
 }

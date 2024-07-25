@@ -8,4 +8,6 @@ public class CommunicationSettings
     public string password { get; set; }
     public string gate { get; set; }
     public string eDapy { get; set; }
+    public string dbconnection { get; set; }
+
 }
