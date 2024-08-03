@@ -284,4 +284,14 @@ public class Helpers
         byte[] byteArray = Encoding.UTF8.GetBytes(combined);
         return Convert.ToBase64String(byteArray);
     }
+
+    public void RemoveNewLines(string input)
+    {
+        if (input == null)
+        {
+            return;
+        }
+
+        input.Replace("\r", "").Replace("\n", "");
+    }
 }

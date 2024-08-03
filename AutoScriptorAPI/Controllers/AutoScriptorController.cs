@@ -165,4 +165,22 @@ public class AutoScriptorController : ControllerBase
     {
         return Ok(await _requestHandler.HandleRequestExecuteDailyPrescriptions(date).ConfigureAwait(false));
     }
+
+    /// <summary>
+    /// Executes the prescription
+    /// </summary>
+    /// <remarks>
+    /// Sample request
+    /// 
+    ///     GET api/PrescriptionInsert
+    /// </remarks>
+    /// <response code="200">A 200 returns response succesfully.</response>
+    /// <response code="401">A 401 if the specified token is not authorized.</response>
+    /// <response code="500">A 500 something wrong has happened.</response>
+    /// <returns></returns>
+    [HttpGet("RetrieveDevices")]
+    public async Task<IActionResult> RetrieveDevices()
+    {
+        return Ok(await _requestHandler.HandleRequestRetrieveDevices().ConfigureAwait(false));
+    }
 }

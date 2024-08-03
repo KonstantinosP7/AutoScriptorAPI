@@ -41,6 +41,7 @@ public class EoppyEservices : IEoppyEservices
             prescription = (EPrescription)serializer.Deserialize(reader);
         }
 
+        prescription.PrescriptionPrintOut.FileData = prescription?.PrescriptionPrintOut.FileData.Replace("\r", "").Replace("\n", "");
 
         return prescription;
     }

@@ -12,4 +12,5 @@ public interface IRequestHandler
     public Task<ResultBeanEPrescription> HandleRequestPrescriptionExecution(string prescriptionNumber);
     public Task<string> HandleRequestPrescriptionInsert(string prescriptionNumber);
     public Task<IEnumerable<NewPrescription>> HandleRequestExecuteDailyPrescriptions(DateTime date);
+    public Task<IEnumerable<BreathDevice>> HandleRequestRetrieveDevices();
 }

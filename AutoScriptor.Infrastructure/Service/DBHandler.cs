@@ -15,14 +15,14 @@ public  class DBHandler : IDBHandler
         _connectionStringSettings = connectionStringSettings.Value;
     }
 
-    public async Task<IEnumerable<BreathDevices>> RetrieveBreathDevices()
+    public async Task<IEnumerable<BreathDevice>> RetrieveBreathDevices()
     {
-        string storedProcedureName = "SELECT [Id], [eDapiCode], [ekapty], [description], [Price] FROM BreathDevices";
+        string storedProcedureName = "SELECT [Id], [eDapiCode], [ekapty], [description], [Price], [SerialNumber], [IsActive] FROM BreathDevices";
 
         try
         {
             using var connection = new SqlConnection(_connectionStringSettings.dbconnection);
-            var resultList = await connection.QueryAsync<BreathDevices>(
+            var resultList = await connection.QueryAsync<BreathDevice>(
                     storedProcedureName,
                     commandType: CommandType.Text
                 ).ConfigureAwait(false);
@@ -31,7 +31,7 @@ public  class DBHandler : IDBHandler
         }
         catch (Exception ex)
         {
-            return Enumerable.Empty<BreathDevices>();
+            return Enumerable.Empty<BreathDevice>();
         }
     }
 

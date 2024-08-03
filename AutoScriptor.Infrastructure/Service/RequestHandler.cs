@@ -145,6 +145,13 @@ public class RequestHandler(IEoppyEservices eoppyEservices, IDBHandler dBHandler
         return dailyPrescriptions;
     }
 
+    public async Task<IEnumerable<BreathDevice>> HandleRequestRetrieveDevices()
+    {
+        var devices = await _dBHandler.RetrieveBreathDevices().ConfigureAwait(false);
+
+        return devices;
+    }
+
     private static int ResolveDaysOfExecution(EPrescription ePrescription)
     {
         var issueDate = DateTime.ParseExact(ePrescription.IssueDateStr, "dd/MM/yyyy", CultureInfo.InvariantCulture);
@@ -155,7 +162,7 @@ public class RequestHandler(IEoppyEservices eoppyEservices, IDBHandler dBHandler
         return difference.Days;
     }
 
-    private static string ResolveUnitPrice(int days, string ekapty, IEnumerable<BreathDevices> devices)
+    private static string ResolveUnitPrice(int days, string ekapty, IEnumerable<BreathDevice> devices)
     {
         var totalPrice = devices.Where(d => d.ekapty == ekapty).Select(i => i.Price).FirstOrDefault() ?? 0;
 
