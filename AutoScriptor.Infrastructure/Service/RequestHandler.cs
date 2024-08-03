@@ -121,11 +121,16 @@ public class RequestHandler(IEoppyEservices eoppyEservices, IDBHandler dBHandler
             prescriptionNumber = prescriptionNumber,
             prescriptionDetailsList = new List<PrescriptionDetail> { newPrescriptionList }
         };
+        var options = new JsonSerializerOptions
+        {
+            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+            WriteIndented = true // Optional, for pretty printing
+        };
 
         var newPrescription = new NewPrescription
         {
             ExecutionDate = prescriptionRetrieved.DurationEnd,
-            PrescriptionData = JsonSerializer.Serialize(newPrescriptionModel)
+            PrescriptionData = JsonSerializer.Serialize(newPrescriptionModel, options)
         };
 
         await _dBHandler.InsertNewPrescription(newPrescription);

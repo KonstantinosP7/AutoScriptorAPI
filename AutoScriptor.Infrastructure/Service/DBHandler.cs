@@ -38,7 +38,7 @@ public  class DBHandler : IDBHandler
     public async Task InsertNewPrescription(NewPrescription newPrescription)
     {
         string storedProcedureName = "INSERT INTO [dbo].[NewPrescriptions]([ExecutionDate], [PrescriptionData]) " +
-            $"VALUES ( '{newPrescription.ExecutionDate}' , '{newPrescription.PrescriptionData}')";
+            $"VALUES ( '{newPrescription.ExecutionDate}' , N'{newPrescription.PrescriptionData}')";
 
         try
         {
